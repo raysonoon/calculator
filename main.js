@@ -1,5 +1,7 @@
 let num1, num2 = 0;
 let opr = "";
+const numBtns = document.querySelectorAll(".num-buttons");
+const displayResult = document.querySelector("#result");
 
 function add(num1, num2) {
     return num1 + num2;
@@ -39,6 +41,15 @@ function operate(num1, num2, opr) {
     
     return result;
 }
+
+//TODO 1: add event listeners to num buttons
+numBtns.forEach(button => {
+    button.addEventListener("click", (event) => {
+        const buttonValue = event.target.value;
+        console.log(buttonValue);
+        displayResult.value += buttonValue;
+    });
+});
 
 console.log(add(1, 3));
 console.log(subtract(4, 2));
