@@ -1,6 +1,7 @@
 let num1, num2 = 0;
 let opr = "";
 const numBtns = document.querySelectorAll(".num-buttons");
+const oprBtns = document.querySelectorAll(".opr-buttons");
 const displayResult = document.querySelector("#result");
 
 function add(num1, num2) {
@@ -42,14 +43,51 @@ function operate(num1, num2, opr) {
     return result;
 }
 
-//TODO 1: add event listeners to num buttons
+function operateResult() {
+    const numArr = displayResult.value.split(/\D/g).map(num => +num); // Split by non-digits and convert each element to numbers
+    console.log(numArr);
+    const oprArr = displayResult.value.split(/\d/g); // Split by digits
+    console.log(oprArr);
+    const operator = oprArr.filter(opr => opr).toString();
+    console.log(operator);
+    if (!operator)
+        return displayResult.value;
+    else
+        return operate(numArr[0], numArr[1], operator);
+}
+
 numBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         const buttonValue = event.target.value;
         console.log(buttonValue);
-        displayResult.value += buttonValue;
+        displayResult.value == 0 ? displayResult.value = buttonValue : displayResult.value += buttonValue;
     });
 });
+
+oprBtns.forEach(button => {
+    button.addEventListener("click", (event) => {
+        switch (event.target.id) {
+            case "add":
+                displayResult.value += "+";
+                break;
+            case "subtract":
+                displayResult.value += "-";
+                break;
+            case "multiply":
+                displayResult.value += "*";
+                break;
+            case "divide":
+                displayResult.value += "/";
+                break;
+            case "equal":
+                displayResult.value = operateResult();
+        }
+    });
+});
+
+//TODO 1: implement all-clear button
+
+//TODO 2: implement clear button
 
 console.log(add(1, 3));
 console.log(subtract(4, 2));
