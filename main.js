@@ -41,7 +41,7 @@ function operate(num1, num2, opr) {
         case "/":
             result = divide(num1, num2);
     }
-    
+
     return result;
 }
 
@@ -52,8 +52,11 @@ function operateResult() {
     console.log(oprArr);
     const operator = oprArr.filter(opr => opr).toString();
     console.log(operator);
-    if (!operator)
+
+    // No operator
+    if (!operator) {
         return displayResult.value;
+    }
     else
         return operate(numArr[0], numArr[1], operator);
 }
@@ -63,6 +66,11 @@ function removeLast(str) {
     charArr.splice(-1, 1);
     const removedStr = charArr.join("");
     return removedStr;
+}
+
+function containsOpr(str) {
+    return str.includes("+") || str.includes("-")
+        || str.includes("*") || str.includes("/");
 }
 
 numBtns.forEach(button => {
@@ -76,21 +84,15 @@ numBtns.forEach(button => {
 
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
-        switch (event.target.id) {
-            case "add":
-                displayResult.value += "+";
-                break;
-            case "subtract":
-                displayResult.value += "-";
-                break;
-            case "multiply":
-                displayResult.value += "*";
-                break;
-            case "divide":
-                displayResult.value += "/";
-                break;
-            case "equal":
-                displayResult.value = operateResult();
+        // operate result first if there is operator and second num
+        if (containsOpr(displayResult.value) && !displayResult.value.endsWith(event.target.id)) {
+            displayResult.value = operateResult();
+        }
+
+        if (event.target.id === "=") {
+            displayResult.value = operateResult();
+        } else {
+            displayResult.value += event.target.id;
         }
     });
 });
