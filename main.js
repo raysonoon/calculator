@@ -3,6 +3,7 @@ let opr = "";
 const numBtns = document.querySelectorAll(".num-buttons");
 const oprBtns = document.querySelectorAll(".opr-buttons");
 const allClearBtn = document.querySelector("#allClearBtn");
+const clearBtn = document.querySelector("#clearBtn");
 const displayResult = document.querySelector("#result");
 
 function add(num1, num2) {
@@ -57,11 +58,19 @@ function operateResult() {
         return operate(numArr[0], numArr[1], operator);
 }
 
+function removeLast(str) {
+    let charArr = str.split("");
+    charArr.splice(-1, 1);
+    const removedStr = charArr.join("");
+    return removedStr;
+}
+
 numBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         const buttonValue = event.target.value;
         console.log(buttonValue);
-        displayResult.value == 0 ? displayResult.value = buttonValue : displayResult.value += buttonValue;
+        if (buttonValue != undefined)
+            displayResult.value == 0 ? displayResult.value = buttonValue : displayResult.value += buttonValue;
     });
 });
 
@@ -92,6 +101,9 @@ allClearBtn.addEventListener("click", () => {
 });
 
 //TODO 2: implement clear button
+clearBtn.addEventListener("click", () => {
+    displayResult.value = removeLast(displayResult.value);
+});
 
 console.log(add(1, 3));
 console.log(subtract(4, 2));
