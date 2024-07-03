@@ -2,6 +2,7 @@ let num1, num2 = 0;
 let opr = "";
 const numBtns = document.querySelectorAll(".num-buttons");
 const oprBtns = document.querySelectorAll(".opr-buttons");
+const allClearBtn = document.querySelector("#allClearBtn");
 const displayResult = document.querySelector("#result");
 
 function add(num1, num2) {
@@ -86,6 +87,9 @@ oprBtns.forEach(button => {
 });
 
 //TODO 1: implement all-clear button
+allClearBtn.addEventListener("click", () => {
+    displayResult.value = 0;
+});
 
 //TODO 2: implement clear button
 
