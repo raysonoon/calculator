@@ -3,7 +3,7 @@ let opr = "";
 const numBtns = document.querySelectorAll(".num-buttons");
 const oprBtns = document.querySelectorAll(".opr-buttons");
 const allClearBtn = document.querySelector("#allClearBtn");
-const clearBtn = document.querySelector("#clearBtn");
+const delBtn = document.querySelector("#delBtn");
 const displayResult = document.querySelector("#result");
 
 function add(num1, num2) {
@@ -46,19 +46,24 @@ function operate(num1, num2, opr) {
 }
 
 function operateResult() {
-    const numArr = displayResult.value.split(/\D/g).map(num => +num); // Split by non-digits and convert each element to numbers
+    // Split by non-digits, filter out empty strings, and convert each element to numbers
+    const numArr = displayResult.value
+        .split(/\D/g)
+        .filter(num => num !== "")
+        .map(num => +num);
     console.log(numArr);
-    const oprArr = displayResult.value.split(/\d/g); // Split by digits
+    console.log(numArr.length);
+    const oprArr = displayResult.value.split(/\d/g).filter(opr => opr !== ""); // Split by digits
     console.log(oprArr);
     const operator = oprArr.filter(opr => opr).toString();
     console.log(operator);
-
-    // No operator
-    if (!operator) {
-        return displayResult.value;
-    }
-    else
+    
+    // Operate result only if there is an operator and a pair of numbers
+    if (operator && numArr.length == 2) {
         return operate(numArr[0], numArr[1], operator);
+    } else {
+        return numArr + operator;
+    }
 }
 
 function removeLast(str) {
@@ -69,8 +74,12 @@ function removeLast(str) {
 }
 
 function containsOpr(str) {
-    return str.includes("+") || str.includes("-")
-        || str.includes("*") || str.includes("/");
+    const operators = ["+", "-", "*", "/"];
+    return operators.some(opr => str.includes(opr));
+}
+
+function endsWithNumber(str) {
+    return /\d$/.test(str);
 }
 
 numBtns.forEach(button => {
@@ -85,14 +94,18 @@ numBtns.forEach(button => {
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         // operate result first if there is operator and second num
-        if (containsOpr(displayResult.value) && !displayResult.value.endsWith(event.target.id)) {
+        if (containsOpr(displayResult.value) && endsWithNumber(displayResult.value)) {
             displayResult.value = operateResult();
         }
 
         if (event.target.id === "=") {
+            // operate result as usual
             displayResult.value = operateResult();
         } else {
-            displayResult.value += event.target.id;
+            // add operator if no operator
+            if (!containsOpr(displayResult.value)) {
+                displayResult.value += event.target.id;
+            }
         }
     });
 });
@@ -103,12 +116,6 @@ allClearBtn.addEventListener("click", () => {
 });
 
 //TODO 2: implement clear button
-clearBtn.addEventListener("click", () => {
+delBtn.addEventListener("click", () => {
     displayResult.value = removeLast(displayResult.value);
 });
-
-console.log(add(1, 3));
-console.log(subtract(4, 2));
-console.log(multiply(3, 4));
-console.log(divide(10, 5));
-console.log(divide(3, 0));
