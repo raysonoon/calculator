@@ -1,7 +1,8 @@
 let num1, num2 = 0;
 let opr = "";
-const numBtns = document.querySelectorAll(".num-buttons");
-const oprBtns = document.querySelectorAll(".opr-buttons");
+const numBtns = document.querySelectorAll(".middle-buttons");
+const zeroBtn = document.querySelector("#zeroBtn");
+const oprBtns = document.querySelectorAll(".right-buttons");
 const allClearBtn = document.querySelector("#allClearBtn");
 const delBtn = document.querySelector("#delBtn");
 const displayResult = document.querySelector("#result");
@@ -47,13 +48,13 @@ function operate(num1, num2, opr) {
 
 function operateResult() {
     // Split by non-digits, filter out empty strings, and convert each element to numbers
-    const numArr = displayResult.value
+    const numArr = displayResult.textContent
         .split(/\D/g)
         .filter(num => num !== "")
         .map(num => +num);
     console.log(numArr);
     console.log(numArr.length);
-    const oprArr = displayResult.value.split(/\d/g).filter(opr => opr !== ""); // Split by digits
+    const oprArr = displayResult.textContent.split(/\d/g).filter(opr => opr !== ""); // Split by digits
     console.log(oprArr);
     const operator = oprArr.filter(opr => opr).toString();
     console.log(operator);
@@ -67,9 +68,13 @@ function operateResult() {
 }
 
 function removeLast(str) {
-    let charArr = str.split("");
+    const charArr = str.split("");
     charArr.splice(-1, 1);
-    const removedStr = charArr.join("");
+    let removedStr = charArr.join("");
+    console.log(removedStr);
+    // Set back default value to 0 if no digits/operators to remove
+    if (removedStr === "")
+        removedStr = "0";
     return removedStr;
 }
 
@@ -87,24 +92,29 @@ numBtns.forEach(button => {
         const buttonValue = event.target.value;
         console.log(buttonValue);
         if (buttonValue != undefined)
-            displayResult.value == 0 ? displayResult.value = buttonValue : displayResult.value += buttonValue;
+            displayResult.textContent == 0 ? displayResult.textContent = buttonValue : displayResult.textContent += buttonValue;
     });
+});
+
+zeroBtn.addEventListener("click", () => {
+    if (displayResult.textContent !== "0")
+        displayResult.textContent += "0";
 });
 
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         // operate result first if there is operator and second num
-        if (containsOpr(displayResult.value) && endsWithNumber(displayResult.value)) {
-            displayResult.value = operateResult();
+        if (containsOpr(displayResult.textContent) && endsWithNumber(displayResult.textContent)) {
+            displayResult.textContent = operateResult();
         }
 
         if (event.target.id === "=") {
             // operate result as usual
-            displayResult.value = operateResult();
+            displayResult.textContent = operateResult();
         } else {
             // add operator if no operator
-            if (!containsOpr(displayResult.value)) {
-                displayResult.value += event.target.id;
+            if (!containsOpr(displayResult.textContent)) {
+                displayResult.textContent += event.target.id;
             }
         }
     });
@@ -112,10 +122,10 @@ oprBtns.forEach(button => {
 
 //TODO 1: implement all-clear button
 allClearBtn.addEventListener("click", () => {
-    displayResult.value = 0;
+    displayResult.textContent = 0;
 });
 
-//TODO 2: implement clear button
+//TODO 2: implement del button
 delBtn.addEventListener("click", () => {
-    displayResult.value = removeLast(displayResult.value);
+    displayResult.textContent = removeLast(displayResult.textContent);
 });

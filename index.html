@@ -12,37 +12,49 @@
     <div class="calculator">
         <!-- section 1: display -->
         <div class="display">
-            <label for="result" class="hidden">Display</label>
-            <input type="text" id="result" value="0" disabled>
+            <div id="result">0</div>
         </div>
         <!-- section 2: buttons-->
         <div class="button-grid">
-            <!-- sub-section 2b: operators-->
-            <div class="opr-buttons">
+            <!-- left section-->
+            <div class="left-buttons">
+                <div class="clear-buttons">
+                    <button id="allClearBtn">A/C</button>
+                    <button id="delBtn">DEL</button>
+                </div>
+                <!-- middle sub-section: digits-->
+                <div class="middle-buttons">
+                    <div class="top-digits">
+                        <button value="7">7</button>
+                        <button value="8">8</button>
+                        <button value="9">9</button>
+                    </div>
+                    <div class="middle-digits">
+                        <button value="4">4</button>
+                        <button value="5">5</button>
+                        <button value="6">6</button>
+                    </div>
+                    <div class="bottom-digits">
+                        <button value="1">1</button>
+                        <button value="2">2</button>
+                        <button value="3">3</button>
+                    </div>
+                </div>
+                <!-- bottom sub-section -->
+                <div class="bottom-buttons">
+                    <button>+/-</button>
+                    <button id="zeroBtn" value="0">0</button>
+                    <button>.</button>
+                </div>
+            </div>
+            <!-- right section: operators-->
+            <div class="right-buttons">
                 <button id="/">/</button>
                 <button id="*">x</button>
                 <button id="-">-</button>
                 <button id="+">+</button>
                 <button id="=">=</button>
             </div>
-            <!-- sub-section 2c: digits-->
-            <div class="num-buttons">
-                <button value="7">7</button>
-                <button value="8">8</button>
-                <button value="9">9</button>
-                <button value="4">4</button>
-                <button value="5">5</button>
-                <button value="6">6</button>
-                <button value="1">1</button>
-                <button value="2">2</button>
-                <button value="3">3</button>
-                <button value="0">0</button>
-            </div>
-            <!-- bonus stuff +/- & .-->
-            <button id="allClearBtn">A/C</button>
-            <button id="delBtn">DEL</button>
-            <button>+/-</button>
-            <button>.</button>
         </div>
 
         <script src="main.js"></script>
