@@ -1,10 +1,11 @@
 let num1, num2 = 0;
 let opr = "";
 const numBtns = document.querySelectorAll(".middle-buttons");
-const zeroBtn = document.querySelector("#zeroBtn");
 const oprBtns = document.querySelectorAll(".right-buttons");
 const allClearBtn = document.querySelector("#allClearBtn");
 const delBtn = document.querySelector("#delBtn");
+const zeroBtn = document.querySelector("#zeroBtn");
+const dotBtn = document.querySelector("#dotBtn");
 const displayResult = document.querySelector("#result");
 
 function add(num1, num2) {
@@ -47,21 +48,22 @@ function operate(num1, num2, opr) {
 }
 
 function operateResult() {
-    // Split by non-digits, filter out empty strings, and convert each element to numbers
+    // Split by non-digits and non . , filter out empty strings, and convert each element to numbers
     const numArr = displayResult.textContent
-        .split(/\D/g)
+        .split(/[^0-9.]+/)
         .filter(num => num !== "")
         .map(num => +num);
     console.log(numArr);
-    console.log(numArr.length);
-    const oprArr = displayResult.textContent.split(/\d/g).filter(opr => opr !== ""); // Split by digits
+    const oprArr = displayResult.textContent.split(/[0-9.]+/).filter(opr => opr !== ""); // Split by digits or .
     console.log(oprArr);
     const operator = oprArr.filter(opr => opr).toString();
     console.log(operator);
-    
+
     // Operate result only if there is an operator and a pair of numbers
     if (operator && numArr.length == 2) {
         return operate(numArr[0], numArr[1], operator);
+    } else if (operator && numArr.length == 1) {
+        return numArr;
     } else {
         return numArr + operator;
     }
@@ -83,6 +85,11 @@ function containsOpr(str) {
     return operators.some(opr => str.includes(opr));
 }
 
+function containsTwoDots(str) {
+    const dotCount = str.split(".").length - 1;
+    return dotCount === 2;
+}
+
 function endsWithNumber(str) {
     return /\d$/.test(str);
 }
@@ -92,7 +99,7 @@ numBtns.forEach(button => {
         const buttonValue = event.target.value;
         console.log(buttonValue);
         if (buttonValue != undefined)
-            displayResult.textContent == 0 ? displayResult.textContent = buttonValue : displayResult.textContent += buttonValue;
+            displayResult.textContent === "0" ? displayResult.textContent = buttonValue : displayResult.textContent += buttonValue;
     });
 });
 
@@ -103,8 +110,8 @@ zeroBtn.addEventListener("click", () => {
 
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
-        // operate result first if there is operator and second num
-        if (containsOpr(displayResult.textContent) && endsWithNumber(displayResult.textContent)) {
+        // operate result first if there is operator and second num or decimal point
+        if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsTwoDots(displayResult.textContent))) {
             displayResult.textContent = operateResult();
         }
 
@@ -129,3 +136,30 @@ allClearBtn.addEventListener("click", () => {
 delBtn.addEventListener("click", () => {
     displayResult.textContent = removeLast(displayResult.textContent);
 });
+
+dotBtn.addEventListener("click", () => {
+    const lastNum = displayResult.textContent.split(/[^0-9.]+/).pop();
+
+    if (!lastNum.includes(".")) {
+        if (endsWithNumber(displayResult.textContent)) {
+            displayResult.textContent += ".";
+        } else {
+            displayResult.textContent += "0.";
+        }
+    }
+});
+
+    /*if (containsTwoDotsMax(displayResult.textContent)) {
+
+        if (endsWithNumber(displayResult.textContent)) {
+            displayResult.textContent += ".";
+        } else {
+            displayResult.textContent += "0.";
+        }
+    }*/
+
+        // add a 0 in front of decimal point if there is operator and no second num
+        /*if (containsOpr(displayResult.textContent  && !endsWithNumber(displayResult.textContent)))
+            displayResult.textContent += "0.";
+        else
+            displayResult.textContent += ".";*/
