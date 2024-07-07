@@ -21,10 +21,9 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    if (num2 === 0) {
+    if (num2 == 0) {
         alert("Math Error :(");
-        // Reset back to default value
-        return 0;
+        return displayResult.textContent;
     } else {
         return num1 / num2;
     }
@@ -126,15 +125,14 @@ zeroBtn.addEventListener("click", () => {
 
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
-        // operate result first if there is operator and second num or decimal point
-        if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsTwoDots(displayResult.textContent))) {
-            displayResult.textContent = operateResult();
-        }
-
         if (event.target.id === "=") {
             // operate result as usual
             displayResult.textContent = operateResult();
         } else {
+            // besides =, operate result first if there is operator and second num or decimal point
+            if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsTwoDots(displayResult.textContent))) {
+                displayResult.textContent = operateResult();
+            }
             // add operator if no operator
             if (!containsOpr(displayResult.textContent)) {
                 displayResult.textContent += event.target.id;
