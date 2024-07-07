@@ -22,7 +22,9 @@ function multiply(num1, num2) {
 
 function divide(num1, num2) {
     if (num2 === 0) {
-        return "Error! Cannot divide by 0";
+        alert("Math Error :(");
+        // Reset back to default value
+        return 0;
     } else {
         return num1 / num2;
     }
@@ -62,8 +64,6 @@ function operateResult() {
     // Operate result only if there is an operator and a pair of numbers
     if (operator && numArr.length == 2) {
         return operate(numArr[0], numArr[1], operator);
-    } else if (operator && numArr.length == 1) {
-        return numArr;
     } else {
         return numArr + operator;
     }
@@ -94,17 +94,33 @@ function endsWithNumber(str) {
     return /\d$/.test(str);
 }
 
+function getLastNum(str) {
+    const lastNum = str.split(/[^0-9.]+/).pop();
+    console.log(lastNum);
+    return lastNum;
+}
+
 numBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         const buttonValue = event.target.value;
         console.log(buttonValue);
-        if (buttonValue != undefined)
-            displayResult.textContent === "0" ? displayResult.textContent = buttonValue : displayResult.textContent += buttonValue;
+        resultLength = displayResult.textContent.length;
+        if (buttonValue != undefined) {
+            if (displayResult.textContent === "0") {
+                displayResult.textContent = buttonValue;
+            } else if (getLastNum(displayResult.textContent) === "0") {
+                // Remove 0 and replace by non-0 digit
+                displayResult.textContent = displayResult.textContent.slice(0, resultLength - 1);
+                displayResult.textContent += buttonValue;
+            } else {
+                displayResult.textContent += buttonValue;
+            }
+        }
     });
 });
 
 zeroBtn.addEventListener("click", () => {
-    if (displayResult.textContent !== "0")
+    if (getLastNum(displayResult.textContent) !== "0")
         displayResult.textContent += "0";
 });
 
@@ -138,9 +154,7 @@ delBtn.addEventListener("click", () => {
 });
 
 dotBtn.addEventListener("click", () => {
-    const lastNum = displayResult.textContent.split(/[^0-9.]+/).pop();
-
-    if (!lastNum.includes(".")) {
+    if (!getLastNum(displayResult.textContent).includes(".")) {
         if (endsWithNumber(displayResult.textContent)) {
             displayResult.textContent += ".";
         } else {
@@ -148,18 +162,3 @@ dotBtn.addEventListener("click", () => {
         }
     }
 });
-
-    /*if (containsTwoDotsMax(displayResult.textContent)) {
-
-        if (endsWithNumber(displayResult.textContent)) {
-            displayResult.textContent += ".";
-        } else {
-            displayResult.textContent += "0.";
-        }
-    }*/
-
-        // add a 0 in front of decimal point if there is operator and no second num
-        /*if (containsOpr(displayResult.textContent  && !endsWithNumber(displayResult.textContent)))
-            displayResult.textContent += "0.";
-        else
-            displayResult.textContent += ".";*/
