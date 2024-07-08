@@ -2,6 +2,7 @@ let num1, num2 = 0;
 let opr = "";
 const numBtns = document.querySelectorAll(".middle-buttons");
 const oprBtns = document.querySelectorAll(".right-buttons");
+const equalBtn = document.querySelector("#equalBtn");
 const allClearBtn = document.querySelector("#allClearBtn");
 const delBtn = document.querySelector("#delBtn");
 const zeroBtn = document.querySelector("#zeroBtn");
@@ -139,10 +140,18 @@ oprBtns.forEach(button => {
             displayResult.textContent = operateResult();
         }
         // add /, x, -, + operator if no operator or negative first number
-        if ((!containsOpr(displayResult.textContent) || isNegativeFirstNum(displayResult.textContent)) && event.target.id !== "=") {
+        if ((!containsOpr(displayResult.textContent) || isNegativeFirstNum(displayResult.textContent))) {
             displayResult.textContent += event.target.id;
         }
     });
+});
+
+equalBtn.addEventListener("click", () => {
+    // operate result first if there is operator and second num or decimal point
+    if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsDot(displayResult.textContent))) {
+        console.log("Operating result...");
+        displayResult.textContent = operateResult();
+    }
 });
 
 //TODO 1: implement all-clear button

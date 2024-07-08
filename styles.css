@@ -7,7 +7,7 @@
 /* TODO 3: Style calculator */
 .calculator {
     width: 520px;
-    height: 580px;
+    height: 585px;
     background-color: rgb(168, 168, 168);
     border: 1px solid black;
     border-radius: 8px;
@@ -36,8 +36,8 @@
 .button-grid {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
+    align-items: flex-end;
+    gap: 15px;
     padding-top: 20px;
 }
 
@@ -69,25 +69,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 9px;
 }
 
-.clear-buttons, .top-digits, .middle-digits, .bottom-digits {
+.clear-buttons, .top-digits, .middle-digits, .bottom-digits, .bottom-buttons {
     display: flex;
     justify-content: center;;
     align-items: center;
     gap: 10px;
 }
 
-/*.bottom-buttons {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-}*/
+#dotBtn {
+    width: 95.36px;
+}
 
 .right-buttons {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 9px;
+}
+
+p {
+    margin-top: 12px;
+    text-align: center;
 }
