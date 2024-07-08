@@ -83,10 +83,26 @@
     width: 95.36px;
 }
 
+#equalBtn {
+    background-color: rgb(148, 198, 255);
+}
+
+#equalBtn:hover {
+    background-color: rgba(148, 198, 255, 0.829); 
+}
+
 .right-buttons {
     display: flex;
     flex-direction: column;
     gap: 9px;
+}
+
+.right-buttons button {
+    background-color: rgb(245, 185, 185);
+}
+
+.right-buttons button:hover {
+    background-color: rgba(245, 185, 185, 0.829);
 }
 
 p {
