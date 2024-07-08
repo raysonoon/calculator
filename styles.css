@@ -19,7 +19,7 @@
     background-color: rgba(198, 241, 239, 0.945);
     border: 1px solid black;
     padding-top: 20px;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     margin-top: 15px;
     margin-bottom: 20px;
     margin-left: 30px;
@@ -72,12 +72,19 @@
     gap: 5px;
 }
 
-.clear-buttons, .top-digits, .middle-digits, .bottom-digits, .bottom-buttons {
+.clear-buttons, .top-digits, .middle-digits, .bottom-digits {
     display: flex;
     justify-content: center;;
     align-items: center;
     gap: 10px;
 }
+
+/*.bottom-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}*/
 
 .right-buttons {
     display: flex;

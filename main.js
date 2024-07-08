@@ -88,9 +88,8 @@ function containsOpr(str) {
     return operators.some(opr => str.includes(opr));
 }
 
-function containsTwoDots(str) {
-    const dotCount = str.split(".").length - 1;
-    return dotCount === 2;
+function containsDot(str) {
+    return str.includes(".");
 }
 
 function endsWithNumber(str) {
@@ -135,11 +134,11 @@ zeroBtn.addEventListener("click", () => {
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         // operate result first if there is operator and second num or decimal point
-        if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsTwoDots(displayResult.textContent))) {
+        if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsDot(displayResult.textContent))) {
             console.log("Operating result...");
             displayResult.textContent = operateResult();
         }
-        // add /, x, -, + operator if no operator
+        // add /, x, -, + operator if no operator or negative first number
         if ((!containsOpr(displayResult.textContent) || isNegativeFirstNum(displayResult.textContent)) && event.target.id !== "=") {
             displayResult.textContent += event.target.id;
         }
