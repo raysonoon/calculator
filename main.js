@@ -21,7 +21,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    if (num2 == 0) {
+    if (num2 === 0) {
         alert("Math Error :(");
         return displayResult.textContent;
     } else {
@@ -49,7 +49,7 @@ function operate(num1, num2, opr) {
 }
 
 function operateResult() {
-    // Split by non-digits and non . , filter out empty strings, and convert each element to numbers
+    // Split non-digits & non-decimal pts, filter out empty strings, and convert each element to numbers
     const numArr = displayResult.textContent
         .split(/[^0-9.]+/)
         .filter(num => num !== "")
@@ -57,14 +57,18 @@ function operateResult() {
     console.log(numArr);
     const oprArr = displayResult.textContent.split(/[0-9.]+/).filter(opr => opr !== ""); // Split by digits or .
     console.log(oprArr);
-    const operator = oprArr.filter(opr => opr).toString();
-    console.log(operator);
 
-    // Operate result only if there is an operator and a pair of numbers
-    if (operator && numArr.length == 2) {
-        return operate(numArr[0], numArr[1], operator);
+    // Operate negative result only if there are 2 operators and a pair of numbers
+    if (oprArr.length == 2 && numArr.length == 2) {
+        console.log("Negative operation");
+        return operate(-numArr[0], numArr[1], oprArr[1]);
+    // Operate positive result if there are 1 operator and a pair of numbers
+    } else if (oprArr.length == 1 && numArr.length == 2) {
+        console.log("Positive operation");
+        return operate(numArr[0], numArr[1], oprArr[0]);
     } else {
-        return numArr + operator;
+        // Negative number only
+        return displayResult.textContent;
     }
 }
 
@@ -99,6 +103,11 @@ function getLastNum(str) {
     return lastNum;
 }
 
+function isNegativeFirstNum(str) {
+    if (str.startsWith("-"))
+        return true;
+}
+
 numBtns.forEach(button => {
     button.addEventListener("click", (event) => {
         const buttonValue = event.target.value;
@@ -125,18 +134,14 @@ zeroBtn.addEventListener("click", () => {
 
 oprBtns.forEach(button => {
     button.addEventListener("click", (event) => {
-        if (event.target.id === "=") {
-            // operate result as usual
+        // operate result first if there is operator and second num or decimal point
+        if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsTwoDots(displayResult.textContent))) {
+            console.log("Operating result...");
             displayResult.textContent = operateResult();
-        } else {
-            // besides =, operate result first if there is operator and second num or decimal point
-            if (containsOpr(displayResult.textContent) && (endsWithNumber(displayResult.textContent) || containsTwoDots(displayResult.textContent))) {
-                displayResult.textContent = operateResult();
-            }
-            // add operator if no operator
-            if (!containsOpr(displayResult.textContent)) {
-                displayResult.textContent += event.target.id;
-            }
+        }
+        // add /, x, -, + operator if no operator
+        if ((!containsOpr(displayResult.textContent) || isNegativeFirstNum(displayResult.textContent)) && event.target.id !== "=") {
+            displayResult.textContent += event.target.id;
         }
     });
 });
